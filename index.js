@@ -2,6 +2,11 @@ const fs = require('fs');
 const Discord = require('discord.js');
 const config = require('./config.json');
 const client = new Discord.Client();
+
+//This is for REST API. Not implemented yet kappa
+const fetch = require('node-fetch');
+const querystring = require('querystring');
+
 client.commands = new Discord.Collection();
 
 /// GO THROUGH EVERY FILE IN COMMANDS FOLDER AND GRAB ALL JS FILES
@@ -13,7 +18,12 @@ for (const file of commandFiles) {
 
 
 client.once('ready', () => {
-	console.log('Ready!');
+	console.log('Ready to go!');
+
+	client.user.setActivity("!help", {
+		type: "STREAMING",
+		//url: "https://github.com/AndyTheNerd/GameReleaseBot/"
+	});
 });
 
 client.on('message', async message => {
@@ -21,7 +31,6 @@ client.on('message', async message => {
 
 	const args = message.content.slice(config.prefix.length).split(/ +/);
 	const commandName = args.shift().toLowerCase();
-
 	const command = client.commands.get(commandName);
 
 	if (!command) return;
