@@ -1,3 +1,4 @@
+require('dotenv').config({ path: require('find-config')('.env') });
 const fs = require('fs');
 const Discord = require('discord.js');
 const config = require('./config.json');
@@ -27,9 +28,9 @@ client.once('ready', () => {
 });
 
 client.on('message', async message => {
-	if (!message.content.startsWith(config.prefix) || message.author.bot) return;
+	if (!message.content.startsWith(process.env.prefix) || message.author.bot) return;
 
-	const args = message.content.slice(config.prefix.length).split(/ +/);
+	const args = message.content.slice(process.env.prefix.length).split(/ +/);
 	const commandName = args.shift().toLowerCase();
 	const command = client.commands.get(commandName);
 
@@ -43,4 +44,4 @@ client.on('message', async message => {
 	}
 });
 
-client.login(config.token);
+client.login(process.env.token);
